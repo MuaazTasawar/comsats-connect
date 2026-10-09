@@ -1,6 +1,6 @@
 # COMSATS Connect
 
-> A Socket.IO communication system for COMSATS University Islamabad, with users, groups and server-enforced communication boundaries.
+> A Socket.IO communication system for COMSATS University Islamabad, with users, groups, a browser chat client, an admin console and server-enforced communication boundaries.
 
 **Course:** Advanced Web Technologies (Semester 7) | **Assignment:** Lab Assignment 1, CLO-5 (Socket.IO)
 **Author:** Muaaz Tasawar | **Repository:** https://github.com/MuaazTasawar/comsats-connect
@@ -11,89 +11,213 @@
 
 1. [Overview](#1-overview)
 2. [Features](#2-features)
-3. [Tech Stack](#3-tech-stack)
-4. [How This Meets the Assignment](#4-how-this-meets-the-assignment)
-5. [Roles and Communication Rules](#5-roles-and-communication-rules)
-6. [Architecture](#6-architecture)
-7. [Project Structure](#7-project-structure)
-8. [Getting Started](#8-getting-started)
-9. [Environment Variables](#9-environment-variables)
-10. [Demo Accounts and Seed Data](#10-demo-accounts-and-seed-data)
-11. [Running the Automated Demo](#11-running-the-automated-demo)
-12. [REST API Reference](#12-rest-api-reference)
-13. [Socket.IO Reference](#13-socketio-reference)
-14. [Manual Testing Guide](#14-manual-testing-guide)
-15. [Error Codes](#15-error-codes)
-16. [Data Storage](#16-data-storage)
-17. [Security Notes](#17-security-notes)
-18. [Troubleshooting](#18-troubleshooting)
-19. [Phase Build History](#19-phase-build-history)
-20. [Limitations and Future Work](#20-limitations-and-future-work)
-21. [Contributing](#21-contributing)
-22. [License](#22-license)
+3. [Screenshots](#3-screenshots)
+4. [Tech Stack](#4-tech-stack)
+5. [How This Meets the Assignment](#5-how-this-meets-the-assignment)
+6. [Roles and Communication Rules](#6-roles-and-communication-rules)
+7. [Architecture](#7-architecture)
+8. [Web Interface](#8-web-interface)
+9. [Project Structure](#9-project-structure)
+10. [Getting Started](#10-getting-started)
+11. [Environment Variables](#11-environment-variables)
+12. [Demo Accounts and Seed Data](#12-demo-accounts-and-seed-data)
+13. [Demo Walkthrough in the Browser](#13-demo-walkthrough-in-the-browser)
+14. [Running the Automated Demo](#14-running-the-automated-demo)
+15. [REST API Reference](#15-rest-api-reference)
+16. [Socket.IO Reference](#16-socketio-reference)
+17. [Manual Testing Guide](#17-manual-testing-guide)
+18. [Error Codes](#18-error-codes)
+19. [Data Storage](#19-data-storage)
+20. [Security Notes](#20-security-notes)
+21. [Troubleshooting](#21-troubleshooting)
+22. [Phase Build History](#22-phase-build-history)
+23. [Limitations and Future Work](#23-limitations-and-future-work)
+24. [Contributing](#24-contributing)
+25. [License](#25-license)
 
 ---
 
 ## 1. Overview
 
-COMSATS Connect is the backend of a university communication platform. Administrators, faculty and students are registered as users, organised into groups (classes, courses, departments, societies, FYP teams and offices), and talk to each other in real time over Socket.IO.
+COMSATS Connect is a university communication platform. Administrators, faculty and students are registered as users, organised into groups (classes, courses, departments, societies, FYP teams and offices), and talk to each other in real time over Socket.IO.
 
 The central idea is the **communication boundary**: the server decides who may read and post in each group and who may send direct messages. The rules model how communication works at COMSATS. For example, the Exam Cell can post official notices that students can read but not reply to, a faculty-only announcement group is read-only for students, and a society president can mute a disruptive member.
 
 All rules live in one place (`permissionService.js`) and are checked on the server for every message. A client cannot bypass them by editing front-end code or by forging a group ID.
 
-The assignment brief asks only for the communication system, so this project is a **backend only**. Instead of a web UI there is a demo client (`tests/demo.js`) that connects several users at once and prints exactly which messages are delivered and which are blocked.
+The project has two parts that share the same rules:
+
+- **Backend:** an Express REST API for administration plus a Socket.IO engine for real-time messaging.
+- **Frontend:** a browser client with no build step. A chat page for everyone, and an admin console for administrators to add users and manage groups. The chat page shows the boundaries as they apply to you, for example a locked message bar in read-only groups.
+
+There is also an automated demo script (`tests/demo.js`) that connects several users at once and prints exactly which messages are delivered and which are blocked.
 
 ---
 
 ## 2. Features
 
-- **User management:** admin-created accounts for three roles (admin, faculty, student) with COMSATS-style login IDs (for example `FA23-BCS-050`). Accounts can be deactivated, and a deactivated user is disconnected immediately.
-- **Groups:** six group types (class, course, department, society, FYP, office) with owners, members, descriptions and renaming.
-- **Posting policies:** each group is `everyone`, `faculty_only` or `admin_only`.
+**Communication boundaries (enforced on the server)**
+
 - **Membership boundary:** only members can join a group's Socket.IO room, read its history or receive its messages. Non-members never receive its events, not even admins.
+- **Posting policies:** each group is `everyone`, `faculty_only` or `admin_only`.
 - **Muting:** a group owner or admin can mute a member, who can still read but not post.
 - **Group creation rules:** admins can create any group, faculty can create course and FYP groups, students can create society and FYP groups (open posting only).
-- **Direct messages:** admins and faculty can message anyone. Students can message only people who share a group with them, or who have messaged them first.
-- **Live membership sync:** adding or removing a member over REST updates the user's live socket rooms instantly, with no reconnect.
-- **Message history:** paged history for groups and direct conversations.
+- **Direct messages:** admins and faculty can message anyone. Students can message only people who share an open group with them, or who have messaged them first.
+- **Abuse control:** per-socket rate limiting, a message length cap, a request body size cap, and login attempt lockout.
+
+**Users and groups**
+
+- **User management:** admin-created accounts for three roles (admin, faculty, student) with COMSATS-style login IDs (for example `FA23-BCS-050`). Accounts can be deactivated, and a deactivated user is disconnected immediately.
+- **Groups:** six group types (class, course, department, society, FYP, office) with owners, members, descriptions and renaming.
+- **Live membership sync:** adding or removing a member updates the user's live socket rooms instantly, with no reconnect.
+
+**Real-time messaging**
+
 - **Presence:** online and offline updates are shared only with people who share a group with the user.
 - **Typing indicators:** shown only for people who are actually allowed to post.
-- **Abuse control:** per-socket rate limiting, a message length cap, a request body size cap, and login attempt lockout.
+- **Message history:** paged history for groups and direct conversations.
 - **Authentication:** one JWT works for both the REST API and the Socket.IO handshake.
-- **Persistence:** data survives restarts using a human-readable JSON file, with no database install.
+
+**Browser interface**
+
+- **Chat page:** groups sorted by type with lock icons on restricted groups, direct messages with online dots, unread counts (also in the browser tab title), day separators, "Load earlier messages", and a message box that turns into a locked bar when you cannot post.
+- **Members panel and dialogs:** view members, mute, remove, add people, edit or leave a group, create a group, start a direct message.
+- **Admin console:** add, search, filter, edit, reset the password of, deactivate and reactivate users, and create, edit, manage and delete any group.
+- **Live updates everywhere:** a new group, a removal, a mute or a deactivation shows up in open browsers without a refresh.
+- **Reconnect handling:** after a dropped connection the page reloads anything it missed.
+- **Per-tab sessions:** every browser tab keeps its own login, so you can test several users side by side.
+- **Responsive and accessible:** the sidebar becomes a drawer on small screens, keyboard focus is visible, controls have labels, and animations respect "reduce motion".
+
+**Persistence**
+
+- Data survives restarts using a human-readable JSON file, with no database install.
 
 ---
 
-## 3. Tech Stack
+## 3. Screenshots
+
+All screenshots are taken from the running application with the demo data from [Demo Accounts and Seed Data](#12-demo-accounts-and-seed-data).
+
+### Sign in
+
+The left panel states the three boundary rules. The demo account buttons fill in the form with one click.
+
+![Sign-in page](docs/screenshots/01-login.png)
+
+### Chat as a student
+
+Muaaz Tasawar (student) in the BCS-7A class group. Groups are sorted by type, and the lock icon marks the two groups where students cannot post: CS Department Announcements and Exam Cell Notices. The header shows the group type, the posting policy and the member count.
+
+![Student chat in a class group](docs/screenshots/02-chat-class-group.png)
+
+### Read-only group
+
+In CS Department Announcements the posting policy is "Faculty and admins post". The student can read the notices, but the message box is replaced by a locked bar that explains why.
+
+![Locked message bar in a faculty-only group](docs/screenshots/03-readonly-announcements-student.png)
+
+### Chat as faculty
+
+Dr. Ahmed Raza (faculty) in the CSC334 course group. Faculty post freely in groups that allow it and can start a direct message with anyone, such as the student in the Direct messages list.
+
+![Faculty chat in a course group](docs/screenshots/04-course-chat-faculty.png)
+
+### Members panel
+
+The group owner sees every member with Mute and Remove buttons, and an "Add people" search to bring in more members.
+
+![Members panel for a group owner](docs/screenshots/05-members-panel.png)
+
+### Muting a member
+
+After the owner presses Mute, the member shows a Muted tag and the button becomes Unmute. The muted student can still read the group, but their message box locks live.
+
+![A muted member in the members panel](docs/screenshots/06-member-muted.png)
+
+### Group creation is limited by role
+
+A student opening "Create a group" is offered only Society and FYP team. The "Who can post" list contains only "Everyone can post". Faculty and admins see wider lists.
+
+![Create a group dialog for a student](docs/screenshots/07-student-create-group.png)
+
+### Direct message boundary
+
+Muaaz and Usman Raza are both in the read-only Exam Cell Notices group, but they share no open group. A read-only notice board does not make two students contacts, so the server refuses the message and the page shows the reason. The earlier "Hi!" in the same chat was sent before this rule was tightened.
+
+![Direct message blocked because no open group is shared](docs/screenshots/08-dm-blocked-no-open-group.png)
+
+A student with no groups at all is blocked the same way.
+
+![Direct message blocked for a student with no shared group](docs/screenshots/09-dm-blocked-stranger.png)
+
+### Admin console: users
+
+Admins see every account with role, department, status and last sign-in. They can add, edit, reset the password of, deactivate and reactivate users.
+
+![Admin console, users tab](docs/screenshots/10-admin-users.png)
+
+### A new user has no groups yet
+
+A newly added student signs in and sees no groups, because membership is the boundary. An admin or a group owner has to add them.
+
+![New student with no groups](docs/screenshots/11-new-user-no-groups.png)
+
+### Admin console: managing a group
+
+Admins can rename a group, edit its description, change who can post, and manage its members.
+
+![Manage group dialog](docs/screenshots/12-admin-manage-group.png)
+
+The member list shows the group owner, admins, and muted members, with Mute, Unmute and Remove buttons, plus a search to add people.
+
+![Group members with a muted student](docs/screenshots/13-admin-members-muted.png)
+
+### Deactivating a user
+
+Deactivation asks for confirmation. The user is signed out right away and cannot sign in again until reactivated.
+
+![Deactivate confirmation](docs/screenshots/14-admin-deactivate-confirm.png)
+
+### Creating a group as an admin
+
+Library Notices was created as an Office group with the "Admins post" policy. The dialog opens straight away so members can be added.
+
+![A newly created office group](docs/screenshots/15-admin-create-group.png)
+
+---
+
+## 4. Tech Stack
 
 | Layer | Technology | Notes |
 |-------|------------|-------|
 | Runtime | Node.js 18+ | Uses the built-in `fetch` in the demo |
-| HTTP server | Express | REST API for administration |
+| HTTP server | Express 5 | REST API, and serves the `public` folder |
 | Real-time | Socket.IO 4 | Rooms, acknowledgements, handshake auth |
 | Authentication | JSON Web Tokens (`jsonwebtoken`) | Shared by REST and sockets |
 | Password hashing | `bcryptjs` | 10 salt rounds |
 | Storage | JSON file (`server/data/db.json`) | Zero install, easy to inspect |
+| Frontend | Plain HTML, CSS and JavaScript | No build step, no framework, no CDN. The Socket.IO client comes from the server at `/socket.io/socket.io.js` |
+| Fonts | System fonts (Segoe UI) and Georgia | Works offline |
 | Configuration | `dotenv` | Settings come from `.env` |
 | Cross-origin | `cors` | Origins controlled by `CLIENT_ORIGIN` |
 | Dev tools | `nodemon`, `socket.io-client` | Auto-restart and the demo client |
 
 ---
 
-## 4. How This Meets the Assignment
+## 5. How This Meets the Assignment
 
 | Assignment requirement | Where it is implemented |
 |------------------------|-------------------------|
 | Create a communication system using Socket.IO | `server/sockets/index.js` and `server/server.js` |
-| Different users can be added | `POST /api/users` (admin), `userService.createUser`, `server/seed.js` |
-| Their groups can be created | `POST /api/groups`, `groupService.createGroup` |
+| Different users can be added | `POST /api/users` (admin), `userService.createUser`, the Admin console, `server/seed.js` |
+| Their groups can be created | `POST /api/groups`, `groupService.createGroup`, the Create group dialogs in the chat page and the Admin console |
 | Communication boundaries define who can communicate in which group | `server/services/permissionService.js` (membership, posting policy, muting, DM rules) |
 | Realistic COMSATS requirements | Exam Cell notices, faculty announcements, class and course groups, societies, FYP teams, supervisor access, registration-number logins |
+| A way to see it working | The browser chat client and admin console, plus `tests/demo.js` for an automated multi-user run |
 
 ---
 
-## 5. Roles and Communication Rules
+## 6. Roles and Communication Rules
 
 ### Roles
 
@@ -143,7 +267,7 @@ Extra protections: the owner cannot be removed or muted (delete the group instea
 ### Membership boundary
 
 - Only members can join a group room, read its history or receive its messages.
-- This applies to admins too. An admin can inspect a group's roster over REST, but cannot read its messages unless they are a member.
+- This applies to admins too. An admin can inspect a group's roster over REST (and in the Admin console), but cannot read its messages unless they are a member.
 - Removing a member immediately removes their live socket from the group room.
 
 ### Direct messages
@@ -152,7 +276,9 @@ Extra protections: the owner cannot be removed or muted (delete the group instea
 |-------------|----------------------|
 | admin | Anyone |
 | faculty | Anyone |
-| student | Only people who share at least one group with them, or who have already messaged them first |
+| student | Only people who share at least one **open group** (posting policy `everyone`) with them, or who have already messaged them first |
+
+Sharing a read-only notice group, such as Exam Cell Notices or CS Department Announcements, does **not** make two students contacts. Without this rule every student would share the Exam Cell Notices group with every other student, and the direct message boundary would never block anyone.
 
 You cannot message yourself or a deactivated account.
 
@@ -170,38 +296,38 @@ You cannot message yourself or a deactivated account.
 
 ---
 
-## 6. Architecture
+## 7. Architecture
 
 ```
-                 +--------------------------------------------+
-                 |                  Clients                   |
-                 |  (demo script, Postman, any Socket.IO app) |
-                 +----------------+---------------+-----------+
-                                  | REST (JWT)    | Socket.IO (JWT in handshake)
-                                  v               v
-        +-------------------------------------------------------------+
-        |                       Express + Socket.IO                   |
-        |                                                             |
-        |  routes/*         sockets/index.js        middleware/*      |
-        |  (REST API)       (real-time engine)      (auth, errors)    |
-        +--------------------+------------------------+---------------+
-                             |                        |
-                             v                        v
-        +-------------------------------------------------------------+
-        |                  Domain services (the rules)                |
-        |                                                             |
-        |   userService     groupService     permissionService        |
-        +-----------------------------+-------------------------------+
-                                      |
-                                      v
-        +-------------------------------------------------------------+
-        |          store/db.js  ->  server/data/db.json               |
-        +-------------------------------------------------------------+
+          +-----------------------------------------------------------+
+          |                          Clients                          |
+          |  Browser (chat.html, admin.html)   demo script   Postman  |
+          +-------------+-----------------------------+---------------+
+                        | REST (JWT)                  | Socket.IO (JWT in handshake)
+                        v                             v
+  +-------------------------------------------------------------------------+
+  |                         Express + Socket.IO                             |
+  |                                                                         |
+  |  public/ (static)   routes/*          sockets/index.js    middleware/*  |
+  |  the web client     (REST API)        (real-time engine)  (auth, errors)|
+  +----------------------------+-------------------------+------------------+
+                               |                         |
+                               v                         v
+  +-------------------------------------------------------------------------+
+  |                    Domain services (the rules)                          |
+  |                                                                         |
+  |       userService       groupService       permissionService            |
+  +--------------------------------+----------------------------------------+
+                                   |
+                                   v
+  +-------------------------------------------------------------------------+
+  |            store/db.js  ->  server/data/db.json                         |
+  +-------------------------------------------------------------------------+
 ```
 
 ### The single path rule
 
-Both the REST routes and the Socket.IO handlers call the **same service functions**. For example, every group message goes through `groupService.postMessage`, which re-checks membership, mute status and posting policy against the database. There is no code path that posts a message without those checks.
+Both the REST routes and the Socket.IO handlers call the **same service functions**. For example, every group message goes through `groupService.postMessage`, which re-checks membership, mute status and posting policy against the database. There is no code path that posts a message without those checks. The browser only mirrors the rules to decide what to show (for example the locked bar), and the server makes the real decision on every message.
 
 ### Socket.IO rooms
 
@@ -232,11 +358,68 @@ Client emits  group:message { groupId, text }
 7. Sender's acknowledgement callback receives { ok: true, message }
 ```
 
-If any check fails, the sender's acknowledgement receives `{ ok: false, error: { code, message } }` and nothing is broadcast.
+If any check fails, the sender's acknowledgement receives `{ ok: false, error: { code, message } }` and nothing is broadcast. In the browser, the reason is shown above the message box.
 
 ---
 
-## 7. Project Structure
+## 8. Web Interface
+
+The server serves the `public` folder, so the whole interface is available at **http://localhost:3000** with no build step.
+
+### Pages
+
+| URL | File | Who | Purpose |
+|-----|------|-----|---------|
+| `/` or `/index.html` | `public/index.html` | Everyone | Sign in, with one-click demo accounts |
+| `/chat.html` | `public/chat.html` | Signed-in users | Group and direct messaging |
+| `/admin.html` | `public/admin.html` | Admins only | User and group management. Other roles are sent back to the chat page |
+
+A direct link to a conversation works: `chat.html#g:<groupId>` opens a group and `chat.html#d:<userId>` opens a direct message.
+
+### Chat page
+
+| Area | What it does |
+|------|--------------|
+| Sidebar | Your name and role, connection status, groups sorted by type (Classes, Courses, Departments, Offices, Societies, FYP teams), direct messages with online dots, and unread counts |
+| Lock icon | Marks groups whose posting policy is not "everyone" |
+| Header | Group name, type, posting policy, member count and description, and a Members button |
+| Message list | Messages grouped by sender and day, role badges for faculty and admins, and "Load earlier messages" for older history |
+| Message box | Enter sends and Shift+Enter adds a new line. In a read-only group or when muted it becomes a locked bar with the reason |
+| Typing line | Shows who is typing in the open chat |
+| Members panel | Member list, mute, remove, add people, edit group, leave group and delete group, depending on your rights |
+| Dialogs | Create a group, start a direct message, edit a group |
+| Toasts | Live notices: you were added, removed, muted or unmuted |
+
+### Admin console
+
+| Tab | What it does |
+|-----|--------------|
+| Users | Search and filter by role and department, add a user, edit name and department, reset a password, deactivate or reactivate an account |
+| Groups | Search and filter by type and posting policy, create any group, and open Manage to edit settings, add, mute or remove members, and delete the group |
+
+### How the frontend works
+
+| File | Responsibility |
+|------|----------------|
+| `public/js/api.js` | Session storage, REST calls with the token, socket connection and acknowledgement helper, small DOM helpers, labels |
+| `public/js/login.js` | Sign-in form, demo account buttons, resume of an existing session |
+| `public/js/chat.js` | Socket connection, group and conversation lists, messages, composer, typing, unread counts, reconnect sync |
+| `public/js/chat-panels.js` | Members panel and the create group, new direct message and edit group dialogs |
+| `public/js/admin.js` | Admin console tabs, user and group management |
+| `public/css/styles.css` | Shared styles and the login page |
+| `public/css/chat.css` | Chat page layout |
+| `public/css/admin.css` | Admin console layout |
+
+Design notes:
+
+- **Per-tab sessions:** the token is kept in `sessionStorage`, not `localStorage`, so each tab has its own login. Open one tab as a student and another as faculty to watch messages and blocks happen live. Closing the tab signs you out.
+- **Server is the authority:** the browser reads `/api/meta` and the group data to decide what to show, but never to decide what is allowed. If a rule is bypassed in the browser, the server still refuses the message.
+- **Safe rendering:** all message text and names are inserted with `textContent`, never `innerHTML`, so a message cannot inject markup.
+- **Same-origin:** because the pages and the API come from the same server, no CORS setup is needed for the bundled client.
+
+---
+
+## 9. Project Structure
 
 ```
 comsats-connect/
@@ -262,7 +445,23 @@ comsats-connect/
 │   │   ├── rateLimiter.js         Sliding-window limiter, one per socket
 │   │   └── index.js               Socket.IO server, rooms, events
 │   ├── seed.js                    Loads demo users, groups and messages
-│   └── server.js                  Express and Socket.IO entry point
+│   └── server.js                  Express and Socket.IO entry point, serves public/
+├── public/
+│   ├── css/
+│   │   ├── styles.css             Shared styles and login page
+│   │   ├── chat.css               Chat page layout
+│   │   └── admin.css              Admin console layout
+│   ├── js/
+│   │   ├── api.js                 Session, REST, socket helpers, DOM helpers
+│   │   ├── login.js               Sign-in page logic
+│   │   ├── chat.js                Chat page logic
+│   │   ├── chat-panels.js         Members panel and chat dialogs
+│   │   └── admin.js               Admin console logic
+│   ├── index.html                 Sign in
+│   ├── chat.html                  Chat page
+│   └── admin.html                 Admin console
+├── docs/
+│   └── screenshots/               Images used in this README
 ├── tests/
 │   └── demo.js                    Multi-user boundary demonstration
 ├── .env.example                   Template for your .env
@@ -273,7 +472,7 @@ comsats-connect/
 
 ---
 
-## 8. Getting Started
+## 10. Getting Started
 
 All commands below are for **Windows PowerShell**.
 
@@ -284,6 +483,7 @@ All commands below are for **Windows PowerShell**.
 | Node.js | 18 or newer | `node -v` |
 | npm | Comes with Node | `npm -v` |
 | Git | Any recent version | `git --version` |
+| Browser | Any current Chrome, Edge or Firefox | |
 
 If PowerShell says "running scripts is disabled" when you use `npm`, run this once:
 
@@ -318,7 +518,7 @@ Open `.env` and replace the `JWT_SECRET` value with a long random string of your
 node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"
 ```
 
-All variables are explained in [Environment Variables](#9-environment-variables). The defaults work as they are, except for the secret.
+All variables are explained in [Environment Variables](#11-environment-variables). The defaults work as they are, except for the secret.
 
 ### Step 4: Load the demo data
 
@@ -349,7 +549,18 @@ npm run dev
 
 Leave this window open. The server must be running for everything below.
 
-### Step 6: Check that it works
+### Step 6: Open the web app
+
+Go to **http://localhost:3000** in your browser and click one of the demo accounts. Student, faculty and admin accounts each see a different set of groups. Admin accounts also see an "Admin console" link under their name.
+
+If port 3000 is busy, start the server on another port and open that address instead:
+
+```powershell
+$env:PORT = 3001
+npm start
+```
+
+### Step 7: Check the API (optional)
 
 In a **second** PowerShell window:
 
@@ -359,7 +570,7 @@ Invoke-RestMethod http://localhost:3000/api/health
 
 You should get `status : ok`.
 
-### Step 7: Run the demo
+### Step 8: Run the automated demo (optional)
 
 In the second window, from the project folder:
 
@@ -367,7 +578,7 @@ In the second window, from the project folder:
 npm run demo
 ```
 
-See [Running the Automated Demo](#11-running-the-automated-demo).
+See [Running the Automated Demo](#14-running-the-automated-demo).
 
 ### Command summary
 
@@ -382,7 +593,7 @@ See [Running the Automated Demo](#11-running-the-automated-demo).
 
 ---
 
-## 9. Environment Variables
+## 11. Environment Variables
 
 Set in `.env` (copied from `.env.example`).
 
@@ -405,9 +616,9 @@ $env:BASE_URL = 'http://localhost:4000'; npm run demo
 
 ---
 
-## 10. Demo Accounts and Seed Data
+## 12. Demo Accounts and Seed Data
 
-**Every demo account uses the password `Comsats@123`.**
+**Every demo account uses the password `Comsats@123`.** These accounts are for demonstration only. Change or remove them before any real use.
 
 ### Users
 
@@ -425,6 +636,8 @@ $env:BASE_URL = 'http://localhost:4000'; npm run demo
 | `FA22-BCS-078` | Hamza Ali | student | Computer Science |
 | `FA22-BEE-031` | Fatima Noor | student | Electrical and Computer Engineering |
 | `SP23-BBA-019` | Usman Raza | student | Management Sciences |
+
+The login page also lists five of these as one-click buttons: `admin.it`, `exam.cell`, `dr.ahmed`, `FA23-BCS-050` and `FA22-BEE-031`.
 
 ### Groups
 
@@ -445,21 +658,47 @@ A few starting messages are also loaded so history is not empty.
 npm run seed -- --force
 ```
 
-This wipes `db.json` completely and recreates the data above.
+This wipes `db.json` completely and recreates the data above. If the server is running, stop it first and start it again afterwards, because it keeps the data in memory.
 
 ---
 
-## 11. Running the Automated Demo
+## 13. Demo Walkthrough in the Browser
 
-`tests/demo.js` is the main way to demonstrate the project. It logs in six users, opens a Socket.IO connection for each, and runs thirteen scenarios, printing which messages were delivered and which were blocked and why. Each check prints `PASS` or `FAIL`.
+Start from a fresh seed (`npm run seed -- --force`, then `npm start`). Open several tabs of **http://localhost:3000**. Each tab keeps its own login. The screenshot numbers refer to [Screenshots](#3-screenshots).
+
+| Step | Do this | You should see |
+|------|---------|----------------|
+| 1 | Open the login page | The three boundary rules and the demo accounts (screenshot 1) |
+| 2 | Tab A: sign in as Muaaz. Tab B: sign in as `dr.ahmed` | Each person sees only their own groups, sorted by type (screenshots 2 and 4) |
+| 3 | Tab B: post in the CSC334 group while Tab A has it open | The message appears in Tab A at once. While Tab B types, Tab A shows "Dr. Ahmed Raza is typing..." |
+| 4 | Tab A: open CS Department Announcements | A locked bar: "Read-only. Only faculty and admins can post in this group." (screenshot 3) |
+| 5 | Tab B: post in CS Department Announcements | Tab A receives it live (or shows an unread badge if another chat is open). Faculty can post here, students cannot |
+| 6 | Tab B: open Exam Cell Notices | Even faculty are locked out. Only `exam.cell` or `admin.it` can post |
+| 7 | Tab B: open CSC334, press Members, then Mute next to Muaaz | Tab A shows a toast and Muaaz's message box locks, while the history stays readable (screenshots 5 and 6) |
+| 8 | Tab C: sign in as Fatima | She sees only Exam Cell Notices and the ACM Student Chapter. BCS-7A is invisible to her |
+| 9 | Tab A: press + next to Direct messages and send Usman Raza a message | Blocked. Muaaz and Usman only share the read-only Exam Cell Notices (screenshot 8) |
+| 10 | Tab B: send Usman a direct message. Then, in a new tab as Usman, reply to Muaaz | Faculty can message anyone, and Usman can reply to Muaaz because Muaaz messaged him first |
+| 11 | Tab A: press + next to Groups | Only Society and FYP team, with the "Everyone can post" policy (screenshot 7) |
+| 12 | Tab D: sign in as `admin.it`, open the Admin console, add a student, then open Groups, Manage BCS-7A and add them | The new user sees BCS-7A appear live, with a toast (screenshots 10 to 13) |
+| 13 | In Manage, press Mute next to the new user | Their message box locks live |
+| 14 | In the Users tab, press Deactivate next to the new user | Their tab is signed out immediately and they cannot sign in again (screenshot 14) |
+| 15 | Create a group, for example Library Notices as an Office group with "Admins post" | The group appears in the table and the Manage dialog opens so members can be added (screenshot 15) |
+| 16 | Sign in as `FA23-BCS-050` and open `/admin.html` | The page sends you back to the chat page. The server also refuses the admin API calls for non-admins |
+| 17 | Run `npm run demo` | Thirteen scenarios print PASS or FAIL for every boundary |
+
+---
+
+## 14. Running the Automated Demo
+
+`tests/demo.js` is the quickest way to check every rule at once. It logs in six users, opens a Socket.IO connection for each, and runs thirteen scenarios, printing which messages were delivered and which were blocked and why. Each check prints `PASS` or `FAIL`.
 
 ### How to run it
 
 1. Make sure the server is running (`npm start` in one window).
-2. For the cleanest run, reset the data first: `npm run seed -- --force` (stop the server, seed, then start the server again).
+2. For the cleanest run, reset the data first: stop the server, run `npm run seed -- --force`, then start the server again.
 3. In a second window: `npm run demo`
 
-The demo prepares its own starting state (for example it makes sure Fatima is not in the FYP team and that Hamza is muted), and it cleans up the groups it creates, so it can be run repeatedly.
+The demo prepares its own starting state (for example it makes sure Fatima is not in the FYP team and that Hamza is muted), and it cleans up the groups it creates, so it can be run repeatedly. It also creates one extra student, **Loner Student** (`FA22-BCS-999`), who belongs to no group. You will see this account in the Admin console after the first run. It is useful for showing the direct message boundary.
 
 ### Scenarios
 
@@ -483,7 +722,7 @@ The demo exits with code 0 when every check passes, and 1 otherwise. Set `NO_COL
 
 ---
 
-## 12. REST API Reference
+## 15. REST API Reference
 
 Base URL: `http://localhost:3000`
 All endpoints except `/api/health`, `/api/meta` and `/api/auth/login` need the header `Authorization: Bearer <token>`.
@@ -536,7 +775,7 @@ All errors use one format:
 
 ### History paging
 
-`limit` returns the newest N messages (default 50, maximum 200), oldest first. To load older messages, pass `before` set to the `createdAt` of the oldest message you already have.
+`limit` returns the newest N messages (default 50, maximum 200), oldest first. To load older messages, pass `before` set to the `createdAt` of the oldest message you already have. The chat page uses this for "Load earlier messages".
 
 ### Example: create a group
 
@@ -556,7 +795,7 @@ Content-Type: application/json
 
 ---
 
-## 13. Socket.IO Reference
+## 16. Socket.IO Reference
 
 ### Connecting
 
@@ -565,6 +804,15 @@ Send the JWT from `/api/auth/login` in the handshake:
 ```js
 const { io } = require('socket.io-client');
 const socket = io('http://localhost:3000', { auth: { token } });
+```
+
+In the browser the client script comes from the server itself, so no install is needed:
+
+```html
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io({ auth: { token } });
+</script>
 ```
 
 A connection without a valid token, or for a deactivated account, is rejected with a `connect_error` whose `err.data.code` explains why.
@@ -601,7 +849,7 @@ Every client-to-server event takes an acknowledgement callback as the last argum
 | `group:removed` | `{ groupId }` | A user who was removed, or all members when a group is deleted |
 | `group:updated` | `{ group }` to the group room, or `{ groupId, muted }` to a user who was muted or unmuted | Members |
 
-Because the sender is also in the group room, they receive their own message through the broadcast as well as the acknowledgement. Clients should de-duplicate by `message.id`.
+Because the sender is also in the group room, they receive their own message through the broadcast as well as the acknowledgement. Clients should de-duplicate by `message.id`. The chat page does this.
 
 ### Minimal client example
 
@@ -636,9 +884,13 @@ main();
 
 ---
 
-## 14. Manual Testing Guide
+## 17. Manual Testing Guide
 
-You can test with the demo, with PowerShell, or with Postman.
+You can test with the browser, with the demo, with PowerShell, or with Postman.
+
+### With the browser
+
+Follow [Demo Walkthrough in the Browser](#13-demo-walkthrough-in-the-browser). It covers every boundary with two or three tabs.
 
 ### With PowerShell
 
@@ -686,15 +938,15 @@ try { Invoke-RestMethod -Uri "http://localhost:3000/api/groups/$gid/messages" -H
 
 ### With Postman
 
-REST endpoints work with a normal HTTP request and the `Authorization: Bearer <token>` header. Postman can also open a Socket.IO connection (New, then Socket.IO). Put the token in the **Auth** section of the handshake, then add listeners for the server events in section 13.
+REST endpoints work with a normal HTTP request and the `Authorization: Bearer <token>` header. Postman can also open a Socket.IO connection (New, then Socket.IO). Put the token in the **Auth** section of the handshake, then add listeners for the server events in section 16.
 
 ### Watching real-time delivery by hand
 
-Open three PowerShell windows, save the client example from section 13 with different login IDs (for example Muaaz, Ayesha and Fatima), and run them. Messages sent to the Venturify FYP Team reach Muaaz and Ayesha but never Fatima, until you add her with `POST /api/groups/:id/members`.
+Open three PowerShell windows, save the client example from section 16 with different login IDs (for example Muaaz, Ayesha and Fatima), and run them. Messages sent to the Venturify FYP Team reach Muaaz and Ayesha but never Fatima, until you add her with `POST /api/groups/:id/members`. In the browser, the same test is steps 2 and 8 of the walkthrough.
 
 ---
 
-## 15. Error Codes
+## 18. Error Codes
 
 ### Authentication and request errors
 
@@ -742,6 +994,7 @@ Open three PowerShell windows, save the client example from section 13 with diff
 | `POST_POLICY_FORBIDDEN` | 403 | Your role cannot use that posting policy |
 | `NOT_GROUP_OWNER` | 403 | Only the owner or an admin can do that |
 | `ALREADY_MEMBER` | 409 | User is already in the group |
+| `NOT_MEMBER` | 403 or 404 | You are not a member of that group, or the user is not a member |
 | `OWNER_PROTECTED` | 400 | The owner cannot be removed or muted |
 | `ADMIN_PROTECTED` | 403 | Admins cannot be muted |
 | `BAD_MUTED` | 400 | `muted` must be true or false |
@@ -750,7 +1003,6 @@ Open three PowerShell windows, save the client example from section 13 with diff
 
 | Code | HTTP | Meaning |
 |------|------|---------|
-| `NOT_MEMBER` | 403 | You are not a member of that group |
 | `MUTED` | 403 | You are muted in that group |
 | `POLICY_FACULTY_ONLY` | 403 | Only faculty and admins can post here |
 | `POLICY_ADMIN_ONLY` | 403 | Only admins can post here |
@@ -766,11 +1018,11 @@ Open three PowerShell windows, save the client example from section 13 with diff
 
 ---
 
-## 16. Data Storage
+## 19. Data Storage
 
 All data is kept in `server/data/db.json`, created on first run. It is loaded into memory at startup, and writes are batched (about 200 ms after the last change) and saved safely through a temporary file. Pending writes are flushed when the process exits, on Ctrl+C, and when nodemon restarts the server.
 
-If `db.json` is ever corrupted, the server copies it to `db.json.corrupt-<timestamp>` and starts with an empty database.
+If `db.json` is ever corrupted, the server copies it to `db.json.corrupt-<timestamp>` and starts with an empty database. The database file, its temporary file and any corrupt backups are excluded from Git.
 
 ### Collections
 
@@ -782,27 +1034,34 @@ If `db.json` is ever corrupted, the server copies it to `db.json.corrupt-<timest
 | `messages` | `id`, `groupId`, `senderId`, `senderName`, `senderRole`, `text`, `createdAt` |
 | `directMessages` | `id`, `fromId`, `toId`, `senderName`, `text`, `createdAt` |
 
-The file is excluded from Git. Anyone who clones the repository runs `npm run seed` to create their own.
+Anyone who clones the repository runs `npm run seed` to create their own database.
 
 ---
 
-## 17. Security Notes
+## 20. Security Notes
 
 - Passwords are hashed with bcrypt and never returned by the API.
 - The user's **role and active status are read from the database on every request and every socket event**, not trusted from the token. Demoting or deactivating a user takes effect immediately.
 - Failed logins are limited per IP and login ID. Login errors are deliberately generic, and a dummy hash comparison keeps timing similar when a login ID does not exist.
-- Message text is stored exactly as typed (trimmed). Any front end that displays messages must escape them to prevent cross-site scripting.
+- Message text is stored exactly as typed (trimmed). The bundled web client renders all text with `textContent`, so messages cannot inject markup. Any other front end that displays messages must escape them to prevent cross-site scripting.
+- The web client keeps its token in `sessionStorage`, so it disappears when the tab closes. Tokens expire after `JWT_EXPIRES_IN`, and an expired session sends the user back to the sign-in page.
+- The browser never decides what is allowed. The checks that hide or lock controls are a convenience, and the server repeats every check.
 - `JWT_SECRET` must be set to a long random value outside of local development. Never commit your `.env` file (it is in `.gitignore`).
+- The demo accounts share one published password. Remove them, or change their passwords, before any real use.
 - For a public deployment, set `CLIENT_ORIGIN` to your real front-end origin(s) instead of `*`, and serve over HTTPS.
 
 ---
 
-## 18. Troubleshooting
+## 21. Troubleshooting
 
 | Problem | Cause and fix |
 |---------|---------------|
 | `npm : File ... cannot be loaded because running scripts is disabled` | Run `Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned` once |
-| `Error: listen EADDRINUSE :::3000` | Port 3000 is taken. Find the process with `netstat -ano \| findstr :3000`, stop it with `taskkill /PID <pid> /F`, or change `PORT` in `.env` |
+| `Error: listen EADDRINUSE :::3000` | Port 3000 is taken, usually by an earlier copy of the server. Find the process with `Get-NetTCPConnection -LocalPort 3000 -State Listen`, stop it with `Stop-Process -Id <pid> -Force`, or start on another port with `$env:PORT = 3001` |
+| The login page shows "Route not found" or JSON instead of the page | The server is not serving the `public` folder. Make sure `server/server.js` contains the `express.static` line and restart the server |
+| "Invalid login ID or password" with a demo account | Browsers may autofill an old saved login over what you typed. Click one of the demo account buttons, or run `npm run seed -- --force` and restart the server |
+| Chat area is blank | Press F12, open the Console tab and read the red error. Hard-refresh with Ctrl+F5 after any file change |
+| A group does not appear after being added | The page updates live. If it does not, the socket is probably disconnected. Check the connection status under your name in the sidebar |
 | Demo says it cannot reach the server | Start it with `npm start` in another window, and check `BASE_URL` if you changed the port |
 | Demo says "Login failed ... Did you run npm run seed?" | The database is empty. Run `npm run seed -- --force`, then restart the server |
 | Demo says a group was not found | The seed data was changed. Run `npm run seed -- --force` and restart the server |
@@ -818,7 +1077,7 @@ The file is excluded from Git. Anyone who clones the repository runs `npm run se
 
 ---
 
-## 19. Phase Build History
+## 22. Phase Build History
 
 | Phase | Name | What was built |
 |-------|------|----------------|
@@ -826,45 +1085,57 @@ The file is excluded from Git. Anyone who clones the repository runs `npm run se
 | 1 | Data Layer and Domain Services | JSON store, permission rules, user service (login, DMs), group service (groups, membership, muting, messages), and the seed script |
 | 2 | Auth and REST API | JWT authentication, role guard, error handling, auth, user and group routes, and the Express server |
 | 3 | Socket.IO Real-Time Engine | Authenticated sockets, room-based delivery boundaries, live membership sync, rate limiting, presence, typing |
-| 4 | Demo Script and Finalize | The thirteen-scenario boundary demo and this README |
+| 4 | Demo Script and Finalize | The thirteen-scenario boundary demo |
+| 5 | Frontend Foundation and Login | Static file serving, shared styles, session and API helpers, sign-in page with demo accounts |
+| 6 | Chat Client | Group and direct chat, locked message bar for read-only groups, members panel, group creation, direct message dialog, unread counts, typing, presence, reconnect sync |
+| 7 | Admin Console | User management and full group management for admins |
+
+**Later changes**
+
+- Fixed a header that showed the text "null" when a chat had no subtitle details.
+- Tightened the student direct message rule so only open groups count as a shared group. Sharing a read-only notice group no longer lets two students message each other.
+- Stopped tracking the temporary database files in Git.
+- Added this README with screenshots and a browser walkthrough.
 
 ---
 
-## 20. Limitations and Future Work
+## 23. Limitations and Future Work
 
 **Current limitations**
 
-- It is a backend only. There is no web or mobile UI.
 - The JSON file store suits a lab or small deployment. It is a single process and writes the whole file, so it does not scale to many thousands of users.
 - Running more than one server instance would require a shared database and the Socket.IO Redis adapter.
 - Presence and rate-limit state are held in memory and reset when the server restarts. The rate limit is per socket, so reconnecting resets the budget.
 - Only text messages are supported. There are no file attachments, reactions, edits or deletions.
-- There is no self-service registration or password reset. Accounts are created by admins.
+- There is no self-service registration or password reset. Accounts are created by admins, and users cannot change their own password.
+- The web client has no read receipts, sound or desktop notifications.
+- Because sessions live in `sessionStorage`, a user has to sign in again in every new tab.
 
 **Ideas for extension**
 
-- A web client (React, or plain HTML with `socket.io-client`) using the same events.
 - A real database (MongoDB or PostgreSQL) behind `store/db.js`.
-- Read receipts and unread counters.
+- Read receipts and desktop notifications.
 - File sharing for course material.
 - Scheduled announcements and message pinning.
 - Group join requests that an owner can approve.
 - Audit logs of moderation actions.
 - Email or push notifications for offline users.
+- A mobile client using the same events.
 
 ---
 
-## 21. Contributing
+## 24. Contributing
 
 1. Fork the repository and create a feature branch.
 2. Keep every communication rule inside `server/services/permissionService.js` so REST and Socket.IO stay consistent.
-3. Add a scenario to `tests/demo.js` for any new rule, and make sure `npm run demo` passes against a freshly seeded database.
-4. Use commit messages in the form `Area: short description`.
-5. Open a pull request describing the change.
+3. In the frontend, insert user text with `textContent` (the `el` helper does this) and never with `innerHTML`.
+4. Add a scenario to `tests/demo.js` for any new rule, and make sure `npm run demo` passes against a freshly seeded database.
+5. Use commit messages in the form `Area: short description`.
+6. Open a pull request describing the change.
 
 ---
 
-## 22. License
+## 25. License
 
 MIT
 
