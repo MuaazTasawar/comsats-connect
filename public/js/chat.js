@@ -201,13 +201,18 @@
 
   /* ---------- Header ---------- */
 
+  // replaceChildren turns a null argument into the text null, so empty slots are dropped first
+  function setSub() {
+    ui.sub.replaceChildren(...Array.prototype.slice.call(arguments).filter(Boolean));
+  }
+
   function renderHeader() {
     const t = state.active;
     ui.actions.replaceChildren();
 
     if (!t) {
       ui.title.textContent = 'COMSATS Connect';
-      ui.sub.replaceChildren(el('span', { text: 'Choose a group or a conversation.' }));
+      setSub(el('span', { text: 'Choose a group or a conversation.' }));
       return;
     }
 
@@ -216,7 +221,7 @@
       if (!g) return;
       const restricted = g.postPolicy !== 'everyone';
       ui.title.textContent = g.name;
-      ui.sub.replaceChildren(
+      setSub(
         el('span', { class: 'badge', text: C.TYPE_LABELS[g.type] || g.type }),
         el('span', { class: 'badge ' + (restricted ? 'badge-readonly' : 'badge-open'), text: C.POLICY_LABELS[g.postPolicy] || g.postPolicy }),
         el('span', { text: g.memberCount + (g.memberCount === 1 ? ' member' : ' members') }),
@@ -230,7 +235,7 @@
 
     const u = dmPartner(t.id);
     ui.title.textContent = u ? u.name : 'Direct message';
-    ui.sub.replaceChildren(
+    setSub(
       u ? el('span', { class: 'badge badge-' + u.role, text: capitalize(u.role) }) : null,
       u ? el('span', { text: u.department }) : null,
       state.online.has(t.id) ? el('span', { class: 'badge badge-open', text: 'Online' }) : null

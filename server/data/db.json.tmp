@@ -1,0 +1,731 @@
+{
+  "users": [
+    {
+      "id": "usr_6b81bfd182d8",
+      "loginId": "admin.it",
+      "name": "IT Administrator",
+      "role": "admin",
+      "department": "Administration",
+      "passwordHash": "$2b$10$02pu/MZGfPWeJhcBuSzihOZpoXyskOHCw2od8Edt10W9pYRLlfdBC",
+      "active": true,
+      "createdAt": "2026-10-09T02:47:14.527Z",
+      "lastLoginAt": "2026-10-09T02:48:37.728Z"
+    },
+    {
+      "id": "usr_4b8a590b0a2e",
+      "loginId": "exam.cell",
+      "name": "Exam Cell Office",
+      "role": "admin",
+      "department": "Administration",
+      "passwordHash": "$2b$10$aN7on1fiPtITgBcvwyexgO8HEk6sxCMbM7uqejMvqx0RVv1nBwJim",
+      "active": true,
+      "createdAt": "2026-10-09T02:47:14.621Z",
+      "lastLoginAt": null
+    },
+    {
+      "id": "usr_a938a29bd1df",
+      "loginId": "dr.ahmed",
+      "name": "Dr. Ahmed Raza",
+      "role": "faculty",
+      "department": "Computer Science",
+      "passwordHash": "$2b$10$cWItokMNx6tRl5KQAxvUretVQrKhF3I2lfNlfki5TvqdPll5gfsD.",
+      "active": true,
+      "createdAt": "2026-10-09T02:47:14.784Z",
+      "lastLoginAt": "2026-10-09T05:57:47.023Z"
+    },
+    {
+      "id": "usr_d7a57ef26120",
+      "loginId": "dr.sana",
+      "name": "Dr. Sana Malik",
+      "role": "faculty",
+      "department": "Computer Science",
+      "passwordHash": "$2b$10$ollhZOjFZPAAjzHm9b/ldeKlVmJ38BwJN5E1pcTidcFar6p49kgla",
+      "active": true,
+      "createdAt": "2026-10-09T02:47:14.927Z",
+      "lastLoginAt": null
+    },
+    {
+      "id": "usr_7ae062cc9dd7",
+      "loginId": "dr.bilal",
+      "name": "Dr. Bilal Hussain",
+      "role": "faculty",
+      "department": "Management Sciences",
+      "passwordHash": "$2b$10$5kbCLoKLHpjbFb7e9jr8qu4DcCj1t7tRDU0TcGeXxeBLMYn6oR9IW",
+      "active": true,
+      "createdAt": "2026-10-09T02:47:15.033Z",
+      "lastLoginAt": null
+    },
+    {
+      "id": "usr_55a29732531e",
+      "loginId": "FA23-BCS-050",
+      "name": "Muaaz Tasawar",
+      "role": "student",
+      "department": "Computer Science",
+      "passwordHash": "$2b$10$ZlxvB1YmKySswAx4eeZB.OuUVkQ536rc5z6Azm1FcGucGY4d4yzm.",
+      "active": true,
+      "createdAt": "2026-10-09T02:47:15.123Z",
+      "lastLoginAt": "2026-10-09T06:00:59.253Z"
+    },
+    {
+      "id": "usr_c611ac4f54fb",
+      "loginId": "FA23-BCS-001",
+      "name": "Abbas Raza",
+      "role": "student",
+      "department": "Computer Science",
+      "passwordHash": "$2b$10$xX5icRHwMvf0BBQK863EDuUrXqX5a./47HPdMQgdbkgHd.3x8W/T.",
+      "active": true,
+      "createdAt": "2026-10-09T02:47:15.219Z",
+      "lastLoginAt": null
+    },
+    {
+      "id": "usr_8f2b8f35c659",
+      "loginId": "FA23-BCS-016",
+      "name": "Amna Bibi",
+      "role": "student",
+      "department": "Computer Science",
+      "passwordHash": "$2b$10$kVVO6ho4RhPRbnPaMotZAuS4yW7JABnQjPmV3WkqYXbxPz.34iGPq",
+      "active": true,
+      "createdAt": "2026-10-09T02:47:15.316Z",
+      "lastLoginAt": null
+    },
+    {
+      "id": "usr_1adc248ac40c",
+      "loginId": "FA22-BCS-012",
+      "name": "Ayesha Khan",
+      "role": "student",
+      "department": "Computer Science",
+      "passwordHash": "$2b$10$G8/d/T4.o3jVBuLqKJ754unFNcUUvi0Wj6O8l7QsxSx/wWGKWDa2m",
+      "active": true,
+      "createdAt": "2026-10-09T02:47:15.407Z",
+      "lastLoginAt": "2026-10-09T02:47:31.454Z"
+    },
+    {
+      "id": "usr_9b780dabf0ca",
+      "loginId": "FA22-BCS-078",
+      "name": "Hamza Ali",
+      "role": "student",
+      "department": "Computer Science",
+      "passwordHash": "$2b$10$ZwnPOoq5etUcY0r9NqN.C.ole5Fbll8YAFe7rBpY2URnRnKposMXu",
+      "active": true,
+      "createdAt": "2026-10-09T02:47:15.503Z",
+      "lastLoginAt": "2026-10-09T02:47:31.548Z"
+    },
+    {
+      "id": "usr_93fe42a334fa",
+      "loginId": "FA22-BEE-031",
+      "name": "Fatima Noor",
+      "role": "student",
+      "department": "Electrical and Computer Engineering",
+      "passwordHash": "$2b$10$sajorrPK3jbqzS7f0s.Fze6PxCaUyrVaCl7LgWoohqjgpBzM44fYm",
+      "active": true,
+      "createdAt": "2026-10-09T02:47:15.601Z",
+      "lastLoginAt": "2026-10-09T02:47:31.645Z"
+    },
+    {
+      "id": "usr_db7939ea512f",
+      "loginId": "SP23-BBA-019",
+      "name": "Usman Raza",
+      "role": "student",
+      "department": "Management Sciences",
+      "passwordHash": "$2b$10$1AyYnwilTkh8AIcKu1xGJ.Hhuxrm.sZKneAong01TU2046GW9yvCS",
+      "active": true,
+      "createdAt": "2026-10-09T02:47:15.713Z",
+      "lastLoginAt": "2026-10-09T02:47:36.878Z"
+    },
+    {
+      "id": "usr_2a03319d0d3b",
+      "loginId": "FA22-BCS-999",
+      "name": "Loner Student",
+      "role": "student",
+      "department": "Computer Science",
+      "passwordHash": "$2b$10$W.EtCyKxjVStNIBRgUD7B.SX9s8BdtfLDfacyaickvJ1fdZqPirSi",
+      "active": true,
+      "createdAt": "2026-10-09T02:47:31.781Z",
+      "lastLoginAt": "2026-10-09T02:47:31.890Z"
+    }
+  ],
+  "groups": [
+    {
+      "id": "grp_e6c8cfda25ea",
+      "name": "BCS-7A",
+      "type": "class",
+      "postPolicy": "everyone",
+      "description": "Class group for BCS Semester 7, Section A.",
+      "createdBy": "usr_6b81bfd182d8",
+      "createdAt": "2026-10-09T02:47:15.714Z",
+      "updatedAt": "2026-10-09T02:47:15.714Z"
+    },
+    {
+      "id": "grp_fdf00ac747d1",
+      "name": "CSC334 Parallel and Distributed Computing",
+      "type": "course",
+      "postPolicy": "everyone",
+      "description": "Course discussion for PDC. Lab assignments are posted here.",
+      "createdBy": "usr_a938a29bd1df",
+      "createdAt": "2026-10-09T02:47:15.715Z",
+      "updatedAt": "2026-10-09T02:47:15.715Z"
+    },
+    {
+      "id": "grp_6bbc80edae3f",
+      "name": "CS Department Announcements",
+      "type": "department",
+      "postPolicy": "faculty_only",
+      "description": "Official department announcements. Students can read only.",
+      "createdBy": "usr_6b81bfd182d8",
+      "createdAt": "2026-10-09T02:47:15.715Z",
+      "updatedAt": "2026-10-09T02:47:15.715Z"
+    },
+    {
+      "id": "grp_d42ca6007dbd",
+      "name": "Exam Cell Notices",
+      "type": "office",
+      "postPolicy": "admin_only",
+      "description": "Datesheets and exam notices. Only the Exam Cell can post.",
+      "createdBy": "usr_4b8a590b0a2e",
+      "createdAt": "2026-10-09T02:47:15.715Z",
+      "updatedAt": "2026-10-09T02:47:15.715Z"
+    },
+    {
+      "id": "grp_e8424c55c246",
+      "name": "ACM Student Chapter",
+      "type": "society",
+      "postPolicy": "everyone",
+      "description": "COMSATS ACM student society.",
+      "createdBy": "usr_55a29732531e",
+      "createdAt": "2026-10-09T02:47:15.715Z",
+      "updatedAt": "2026-10-09T02:47:15.715Z"
+    },
+    {
+      "id": "grp_594d4c3fb798",
+      "name": "Venturify FYP Team",
+      "type": "fyp",
+      "postPolicy": "everyone",
+      "description": "Final year project team. Supervisor: Dr. Sana Malik.",
+      "createdBy": "usr_55a29732531e",
+      "createdAt": "2026-10-09T02:47:15.715Z",
+      "updatedAt": "2026-10-09T02:47:15.715Z"
+    }
+  ],
+  "memberships": [
+    {
+      "groupId": "grp_e6c8cfda25ea",
+      "userId": "usr_6b81bfd182d8",
+      "groupRole": "owner",
+      "muted": false,
+      "joinedAt": "2026-10-09T02:47:15.714Z"
+    },
+    {
+      "groupId": "grp_e6c8cfda25ea",
+      "userId": "usr_a938a29bd1df",
+      "groupRole": "member",
+      "muted": false,
+      "joinedAt": "2026-10-09T02:47:15.714Z"
+    },
+    {
+      "groupId": "grp_e6c8cfda25ea",
+      "userId": "usr_d7a57ef26120",
+      "groupRole": "member",
+      "muted": false,
+      "joinedAt": "2026-10-09T02:47:15.714Z"
+    },
+    {
+      "groupId": "grp_e6c8cfda25ea",
+      "userId": "usr_55a29732531e",
+      "groupRole": "member",
+      "muted": false,
+      "joinedAt": "2026-10-09T02:47:15.714Z"
+    },
+    {
+      "groupId": "grp_e6c8cfda25ea",
+      "userId": "usr_1adc248ac40c",
+      "groupRole": "member",
+      "muted": false,
+      "joinedAt": "2026-10-09T02:47:15.714Z"
+    },
+    {
+      "groupId": "grp_e6c8cfda25ea",
+      "userId": "usr_9b780dabf0ca",
+      "groupRole": "member",
+      "muted": false,
+      "joinedAt": "2026-10-09T02:47:15.714Z"
+    },
+    {
+      "groupId": "grp_fdf00ac747d1",
+      "userId": "usr_a938a29bd1df",
+      "groupRole": "owner",
+      "muted": false,
+      "joinedAt": "2026-10-09T02:47:15.715Z"
+    },
+    {
+      "groupId": "grp_fdf00ac747d1",
+      "userId": "usr_55a29732531e",
+      "groupRole": "member",
+      "muted": false,
+      "joinedAt": "2026-10-09T02:47:15.715Z"
+    },
+    {
+      "groupId": "grp_fdf00ac747d1",
+      "userId": "usr_1adc248ac40c",
+      "groupRole": "member",
+      "muted": false,
+      "joinedAt": "2026-10-09T02:47:15.715Z"
+    },
+    {
+      "groupId": "grp_fdf00ac747d1",
+      "userId": "usr_9b780dabf0ca",
+      "groupRole": "member",
+      "muted": false,
+      "joinedAt": "2026-10-09T02:47:15.715Z"
+    },
+    {
+      "groupId": "grp_6bbc80edae3f",
+      "userId": "usr_6b81bfd182d8",
+      "groupRole": "owner",
+      "muted": false,
+      "joinedAt": "2026-10-09T02:47:15.715Z"
+    },
+    {
+      "groupId": "grp_6bbc80edae3f",
+      "userId": "usr_a938a29bd1df",
+      "groupRole": "member",
+      "muted": false,
+      "joinedAt": "2026-10-09T02:47:15.715Z"
+    },
+    {
+      "groupId": "grp_6bbc80edae3f",
+      "userId": "usr_d7a57ef26120",
+      "groupRole": "member",
+      "muted": false,
+      "joinedAt": "2026-10-09T02:47:15.715Z"
+    },
+    {
+      "groupId": "grp_6bbc80edae3f",
+      "userId": "usr_55a29732531e",
+      "groupRole": "member",
+      "muted": false,
+      "joinedAt": "2026-10-09T02:47:15.715Z"
+    },
+    {
+      "groupId": "grp_6bbc80edae3f",
+      "userId": "usr_1adc248ac40c",
+      "groupRole": "member",
+      "muted": false,
+      "joinedAt": "2026-10-09T02:47:15.715Z"
+    },
+    {
+      "groupId": "grp_6bbc80edae3f",
+      "userId": "usr_9b780dabf0ca",
+      "groupRole": "member",
+      "muted": false,
+      "joinedAt": "2026-10-09T02:47:15.715Z"
+    },
+    {
+      "groupId": "grp_d42ca6007dbd",
+      "userId": "usr_4b8a590b0a2e",
+      "groupRole": "owner",
+      "muted": false,
+      "joinedAt": "2026-10-09T02:47:15.715Z"
+    },
+    {
+      "groupId": "grp_d42ca6007dbd",
+      "userId": "usr_6b81bfd182d8",
+      "groupRole": "member",
+      "muted": false,
+      "joinedAt": "2026-10-09T02:47:15.715Z"
+    },
+    {
+      "groupId": "grp_d42ca6007dbd",
+      "userId": "usr_a938a29bd1df",
+      "groupRole": "member",
+      "muted": false,
+      "joinedAt": "2026-10-09T02:47:15.715Z"
+    },
+    {
+      "groupId": "grp_d42ca6007dbd",
+      "userId": "usr_d7a57ef26120",
+      "groupRole": "member",
+      "muted": false,
+      "joinedAt": "2026-10-09T02:47:15.715Z"
+    },
+    {
+      "groupId": "grp_d42ca6007dbd",
+      "userId": "usr_7ae062cc9dd7",
+      "groupRole": "member",
+      "muted": false,
+      "joinedAt": "2026-10-09T02:47:15.715Z"
+    },
+    {
+      "groupId": "grp_d42ca6007dbd",
+      "userId": "usr_55a29732531e",
+      "groupRole": "member",
+      "muted": false,
+      "joinedAt": "2026-10-09T02:47:15.715Z"
+    },
+    {
+      "groupId": "grp_d42ca6007dbd",
+      "userId": "usr_c611ac4f54fb",
+      "groupRole": "member",
+      "muted": false,
+      "joinedAt": "2026-10-09T02:47:15.715Z"
+    },
+    {
+      "groupId": "grp_d42ca6007dbd",
+      "userId": "usr_8f2b8f35c659",
+      "groupRole": "member",
+      "muted": false,
+      "joinedAt": "2026-10-09T02:47:15.715Z"
+    },
+    {
+      "groupId": "grp_d42ca6007dbd",
+      "userId": "usr_1adc248ac40c",
+      "groupRole": "member",
+      "muted": false,
+      "joinedAt": "2026-10-09T02:47:15.715Z"
+    },
+    {
+      "groupId": "grp_d42ca6007dbd",
+      "userId": "usr_9b780dabf0ca",
+      "groupRole": "member",
+      "muted": false,
+      "joinedAt": "2026-10-09T02:47:15.715Z"
+    },
+    {
+      "groupId": "grp_d42ca6007dbd",
+      "userId": "usr_93fe42a334fa",
+      "groupRole": "member",
+      "muted": false,
+      "joinedAt": "2026-10-09T02:47:15.715Z"
+    },
+    {
+      "groupId": "grp_d42ca6007dbd",
+      "userId": "usr_db7939ea512f",
+      "groupRole": "member",
+      "muted": false,
+      "joinedAt": "2026-10-09T02:47:15.715Z"
+    },
+    {
+      "groupId": "grp_e8424c55c246",
+      "userId": "usr_55a29732531e",
+      "groupRole": "owner",
+      "muted": false,
+      "joinedAt": "2026-10-09T02:47:15.715Z"
+    },
+    {
+      "groupId": "grp_e8424c55c246",
+      "userId": "usr_1adc248ac40c",
+      "groupRole": "member",
+      "muted": false,
+      "joinedAt": "2026-10-09T02:47:15.715Z"
+    },
+    {
+      "groupId": "grp_e8424c55c246",
+      "userId": "usr_9b780dabf0ca",
+      "groupRole": "member",
+      "muted": true,
+      "joinedAt": "2026-10-09T02:47:15.715Z"
+    },
+    {
+      "groupId": "grp_e8424c55c246",
+      "userId": "usr_93fe42a334fa",
+      "groupRole": "member",
+      "muted": false,
+      "joinedAt": "2026-10-09T02:47:15.715Z"
+    },
+    {
+      "groupId": "grp_594d4c3fb798",
+      "userId": "usr_55a29732531e",
+      "groupRole": "owner",
+      "muted": false,
+      "joinedAt": "2026-10-09T02:47:15.715Z"
+    },
+    {
+      "groupId": "grp_594d4c3fb798",
+      "userId": "usr_c611ac4f54fb",
+      "groupRole": "member",
+      "muted": false,
+      "joinedAt": "2026-10-09T02:47:15.715Z"
+    },
+    {
+      "groupId": "grp_594d4c3fb798",
+      "userId": "usr_8f2b8f35c659",
+      "groupRole": "member",
+      "muted": false,
+      "joinedAt": "2026-10-09T02:47:15.715Z"
+    },
+    {
+      "groupId": "grp_594d4c3fb798",
+      "userId": "usr_1adc248ac40c",
+      "groupRole": "member",
+      "muted": false,
+      "joinedAt": "2026-10-09T02:47:15.715Z"
+    },
+    {
+      "groupId": "grp_594d4c3fb798",
+      "userId": "usr_d7a57ef26120",
+      "groupRole": "member",
+      "muted": false,
+      "joinedAt": "2026-10-09T02:47:15.715Z"
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_2cd4e1b58f1a",
+      "groupId": "grp_d42ca6007dbd",
+      "senderId": "usr_4b8a590b0a2e",
+      "senderName": "Exam Cell Office",
+      "senderRole": "admin",
+      "text": "Mid-term datesheet will be uploaded on the portal by Friday.",
+      "createdAt": "2026-10-09T02:47:15.716Z"
+    },
+    {
+      "id": "msg_d752e7853f55",
+      "groupId": "grp_6bbc80edae3f",
+      "senderId": "usr_a938a29bd1df",
+      "senderName": "Dr. Ahmed Raza",
+      "senderRole": "faculty",
+      "text": "The department seminar on cloud computing is on Monday at 11:00 AM.",
+      "createdAt": "2026-10-09T02:47:15.716Z"
+    },
+    {
+      "id": "msg_d4ed6d8323a7",
+      "groupId": "grp_fdf00ac747d1",
+      "senderId": "usr_a938a29bd1df",
+      "senderName": "Dr. Ahmed Raza",
+      "senderRole": "faculty",
+      "text": "Lab Assignment 1 (Socket.IO) has been posted. Please read the brief carefully.",
+      "createdAt": "2026-10-09T02:47:15.716Z"
+    },
+    {
+      "id": "msg_426b1543a9e0",
+      "groupId": "grp_fdf00ac747d1",
+      "senderId": "usr_1adc248ac40c",
+      "senderName": "Ayesha Khan",
+      "senderRole": "student",
+      "text": "Sir, is the demo required in the lab or can we show it online?",
+      "createdAt": "2026-10-09T02:47:15.716Z"
+    },
+    {
+      "id": "msg_457f62a9fdee",
+      "groupId": "grp_594d4c3fb798",
+      "senderId": "usr_55a29732531e",
+      "senderName": "Muaaz Tasawar",
+      "senderRole": "student",
+      "text": "Sprint planning meeting tomorrow after the 2 PM class.",
+      "createdAt": "2026-10-09T02:47:15.716Z"
+    },
+    {
+      "id": "msg_b1e03b0d18f0",
+      "groupId": "grp_594d4c3fb798",
+      "senderId": "usr_c611ac4f54fb",
+      "senderName": "Abbas Raza",
+      "senderRole": "student",
+      "text": "I will prepare the database design for the next meeting.",
+      "createdAt": "2026-10-09T02:47:15.716Z"
+    },
+    {
+      "id": "msg_30f7c2e32f03",
+      "groupId": "grp_594d4c3fb798",
+      "senderId": "usr_8f2b8f35c659",
+      "senderName": "Amna Bibi",
+      "senderRole": "student",
+      "text": "I will work on the user interface mockups.",
+      "createdAt": "2026-10-09T02:47:15.716Z"
+    },
+    {
+      "id": "msg_2cecfca32520",
+      "groupId": "grp_e6c8cfda25ea",
+      "senderId": "usr_d7a57ef26120",
+      "senderName": "Dr. Sana Malik",
+      "senderRole": "faculty",
+      "text": "Please submit your FYP proposals by next week.",
+      "createdAt": "2026-10-09T02:47:15.716Z"
+    },
+    {
+      "id": "msg_71d884636715",
+      "groupId": "grp_fdf00ac747d1",
+      "senderId": "usr_1adc248ac40c",
+      "senderName": "Ayesha Khan",
+      "senderRole": "student",
+      "text": "Sir, can we have the lab demo online? [demo 3]",
+      "createdAt": "2026-10-09T02:47:32.010Z"
+    },
+    {
+      "id": "msg_ea1c8c4c9e59",
+      "groupId": "grp_6bbc80edae3f",
+      "senderId": "usr_a938a29bd1df",
+      "senderName": "Dr. Ahmed Raza",
+      "senderRole": "faculty",
+      "text": "Seminar on Monday at 11 AM. [demo 4b]",
+      "createdAt": "2026-10-09T02:47:32.325Z"
+    },
+    {
+      "id": "msg_4bcf968e35aa",
+      "groupId": "grp_d42ca6007dbd",
+      "senderId": "usr_6b81bfd182d8",
+      "senderName": "IT Administrator",
+      "senderRole": "admin",
+      "text": "Mid-term datesheet is now on the portal. [demo 5c]",
+      "createdAt": "2026-10-09T02:47:32.644Z"
+    },
+    {
+      "id": "msg_deb1668d18d4",
+      "groupId": "grp_e8424c55c246",
+      "senderId": "usr_9b780dabf0ca",
+      "senderName": "Hamza Ali",
+      "senderRole": "student",
+      "text": "Thanks for unmuting me [demo 6b]",
+      "createdAt": "2026-10-09T02:47:33.272Z"
+    },
+    {
+      "id": "msg_0e9023fa9d5a",
+      "groupId": "grp_594d4c3fb798",
+      "senderId": "usr_55a29732531e",
+      "senderName": "Muaaz Tasawar",
+      "senderRole": "student",
+      "text": "Sprint notes for the team [demo 7b]",
+      "createdAt": "2026-10-09T02:47:33.805Z"
+    },
+    {
+      "id": "msg_624009b84dd0",
+      "groupId": "grp_594d4c3fb798",
+      "senderId": "usr_55a29732531e",
+      "senderName": "Muaaz Tasawar",
+      "senderRole": "student",
+      "text": "Welcome to the team, Fatima [demo 7c]",
+      "createdAt": "2026-10-09T02:47:34.432Z"
+    },
+    {
+      "id": "msg_1704eea7121e",
+      "groupId": "grp_594d4c3fb798",
+      "senderId": "usr_55a29732531e",
+      "senderName": "Muaaz Tasawar",
+      "senderRole": "student",
+      "text": "Private discussion after removal [demo 7d]",
+      "createdAt": "2026-10-09T02:47:35.055Z"
+    },
+    {
+      "id": "msg_281ecfaf82d1",
+      "groupId": "grp_e8424c55c246",
+      "senderId": "usr_55a29732531e",
+      "senderName": "Muaaz Tasawar",
+      "senderRole": "student",
+      "text": "burst 0 [rate-limit test]",
+      "createdAt": "2026-10-09T02:47:36.730Z"
+    },
+    {
+      "id": "msg_ee3d5b12a3fd",
+      "groupId": "grp_e8424c55c246",
+      "senderId": "usr_55a29732531e",
+      "senderName": "Muaaz Tasawar",
+      "senderRole": "student",
+      "text": "burst 1 [rate-limit test]",
+      "createdAt": "2026-10-09T02:47:36.730Z"
+    },
+    {
+      "id": "msg_463a29fd6811",
+      "groupId": "grp_e8424c55c246",
+      "senderId": "usr_55a29732531e",
+      "senderName": "Muaaz Tasawar",
+      "senderRole": "student",
+      "text": "burst 2 [rate-limit test]",
+      "createdAt": "2026-10-09T02:47:36.731Z"
+    },
+    {
+      "id": "msg_67747e2d4588",
+      "groupId": "grp_e8424c55c246",
+      "senderId": "usr_55a29732531e",
+      "senderName": "Muaaz Tasawar",
+      "senderRole": "student",
+      "text": "burst 3 [rate-limit test]",
+      "createdAt": "2026-10-09T02:47:36.731Z"
+    },
+    {
+      "id": "msg_579dd4a0bf30",
+      "groupId": "grp_e8424c55c246",
+      "senderId": "usr_55a29732531e",
+      "senderName": "Muaaz Tasawar",
+      "senderRole": "student",
+      "text": "burst 4 [rate-limit test]",
+      "createdAt": "2026-10-09T02:47:36.731Z"
+    },
+    {
+      "id": "msg_8be4a81022d9",
+      "groupId": "grp_e8424c55c246",
+      "senderId": "usr_55a29732531e",
+      "senderName": "Muaaz Tasawar",
+      "senderRole": "student",
+      "text": "burst 5 [rate-limit test]",
+      "createdAt": "2026-10-09T02:47:36.731Z"
+    },
+    {
+      "id": "msg_cd0acfa01994",
+      "groupId": "grp_e8424c55c246",
+      "senderId": "usr_55a29732531e",
+      "senderName": "Muaaz Tasawar",
+      "senderRole": "student",
+      "text": "burst 6 [rate-limit test]",
+      "createdAt": "2026-10-09T02:47:36.731Z"
+    },
+    {
+      "id": "msg_18e6669ae218",
+      "groupId": "grp_e8424c55c246",
+      "senderId": "usr_55a29732531e",
+      "senderName": "Muaaz Tasawar",
+      "senderRole": "student",
+      "text": "burst 7 [rate-limit test]",
+      "createdAt": "2026-10-09T02:47:36.731Z"
+    },
+    {
+      "id": "msg_2d72059be796",
+      "groupId": "grp_e8424c55c246",
+      "senderId": "usr_55a29732531e",
+      "senderName": "Muaaz Tasawar",
+      "senderRole": "student",
+      "text": "burst 8 [rate-limit test]",
+      "createdAt": "2026-10-09T02:47:36.731Z"
+    },
+    {
+      "id": "msg_98a750d8dbef",
+      "groupId": "grp_e8424c55c246",
+      "senderId": "usr_55a29732531e",
+      "senderName": "Muaaz Tasawar",
+      "senderRole": "student",
+      "text": "burst 9 [rate-limit test]",
+      "createdAt": "2026-10-09T02:47:36.732Z"
+    }
+  ],
+  "directMessages": [
+    {
+      "id": "dm_b47f58135cde",
+      "fromId": "usr_55a29732531e",
+      "toId": "usr_1adc248ac40c",
+      "senderName": "Muaaz Tasawar",
+      "text": "Did you finish the lab? [demo 9a]",
+      "createdAt": "2026-10-09T02:47:36.061Z"
+    },
+    {
+      "id": "dm_c32ede2bfd1b",
+      "fromId": "usr_a938a29bd1df",
+      "toId": "usr_2a03319d0d3b",
+      "senderName": "Dr. Ahmed Raza",
+      "text": "Please see me in my office. [demo 9c]",
+      "createdAt": "2026-10-09T02:47:36.370Z"
+    },
+    {
+      "id": "dm_9c46f0daeaeb",
+      "fromId": "usr_2a03319d0d3b",
+      "toId": "usr_a938a29bd1df",
+      "senderName": "Loner Student",
+      "text": "Yes sir, I will come. [demo 9d]",
+      "createdAt": "2026-10-09T02:47:36.680Z"
+    },
+    {
+      "id": "dm_839b7081f057",
+      "fromId": "usr_a938a29bd1df",
+      "toId": "usr_93fe42a334fa",
+      "senderName": "Dr. Ahmed Raza",
+      "text": "Hello?",
+      "createdAt": "2026-10-09T05:59:48.496Z"
+    }
+  ]
+}
