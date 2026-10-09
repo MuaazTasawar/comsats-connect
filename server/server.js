@@ -17,6 +17,7 @@ const {
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 const groupRoutes = require('./routes/groupRoutes');
+const { attachSockets } = require('./sockets');
 const { notFound, errorHandler } = require('./middleware/errorHandler');
 
 const app = express();
@@ -33,6 +34,13 @@ const corsOrigin =
 
 app.use(cors({ origin: corsOrigin }));
 app.use(express.json({ limit: '100kb' }));
+
+/* ------------------------------------------------------------------ */
+/* Socket.IO (routes reach it through app.get('io'))                   */
+/* ------------------------------------------------------------------ */
+
+const io = attachSockets(server, corsOrigin);
+app.set('io', io);
 
 /* ------------------------------------------------------------------ */
 /* Routes                                                              */
@@ -68,6 +76,7 @@ app.use(errorHandler);
 function start() {
   server.listen(SERVER.PORT, () => {
     console.log('COMSATS Connect API running on http://localhost:' + SERVER.PORT);
+    console.log('Socket.IO is ready for connections.');
   });
 }
 
@@ -75,4 +84,4 @@ if (require.main === module) {
   start();
 }
 
-module.exports = { app, server, start };
+module.exports = { app, server, io, start };
