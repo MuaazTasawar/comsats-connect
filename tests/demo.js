@@ -60,7 +60,7 @@ function info(text) {
 const CAST = {
   admin: 'admin.it',
   ahmed: 'dr.ahmed',
-  muaaz: 'FA22-BCS-045',
+  muaaz: 'FA23-BCS-050',
   ayesha: 'FA22-BCS-012',
   hamza: 'FA22-BCS-078',
   fatima: 'FA22-BEE-031',

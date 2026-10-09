@@ -48,7 +48,7 @@ The assignment brief asks only for the communication system, so this project is 
 
 ## 2. Features
 
-- **User management:** admin-created accounts for three roles (admin, faculty, student) with COMSATS-style login IDs (for example `FA22-BCS-045`). Accounts can be deactivated, and a deactivated user is disconnected immediately.
+- **User management:** admin-created accounts for three roles (admin, faculty, student) with COMSATS-style login IDs (for example `FA23-BCS-050`). Accounts can be deactivated, and a deactivated user is disconnected immediately.
 - **Groups:** six group types (class, course, department, society, FYP, office) with owners, members, descriptions and renaming.
 - **Posting policies:** each group is `everyone`, `faculty_only` or `admin_only`.
 - **Membership boundary:** only members can join a group's Socket.IO room, read its history or receive its messages. Non-members never receive its events, not even admins.
@@ -101,7 +101,7 @@ The assignment brief asks only for the communication system, so this project is 
 |------|-----------------|-----------------|
 | `admin` | IT office, Exam Cell, Admissions | Username, for example `exam.cell` |
 | `faculty` | Teachers and supervisors | Username, for example `dr.ahmed` |
-| `student` | Registered students | Registration number, for example `FA22-BCS-045` |
+| `student` | Registered students | Registration number, for example `FA23-BCS-050` |
 
 ### Group types
 
@@ -326,7 +326,7 @@ All variables are explained in [Environment Variables](#9-environment-variables)
 npm run seed
 ```
 
-You should see `Seed complete`, along with 10 users, 6 groups and a list of demo logins. This creates `server/data/db.json`.
+You should see `Seed complete`, along with 12 users, 6 groups and a list of demo logins. This creates `server/data/db.json`.
 
 ### Step 5: Start the server
 
@@ -418,7 +418,9 @@ $env:BASE_URL = 'http://localhost:4000'; npm run demo
 | `dr.ahmed` | Dr. Ahmed Raza | faculty | Computer Science |
 | `dr.sana` | Dr. Sana Malik | faculty | Computer Science |
 | `dr.bilal` | Dr. Bilal Hussain | faculty | Management Sciences |
-| `FA22-BCS-045` | Muaaz Tasawar | student | Computer Science |
+| `FA23-BCS-001` | Abbas Raza | student | Computer Science |
+| `FA23-BCS-016` | Amna Bibi | student | Computer Science |
+| `FA23-BCS-050` | Muaaz Tasawar | student | Computer Science |
 | `FA22-BCS-012` | Ayesha Khan | student | Computer Science |
 | `FA22-BCS-078` | Hamza Ali | student | Computer Science |
 | `FA22-BEE-031` | Fatima Noor | student | Electrical and Computer Engineering |
@@ -433,7 +435,7 @@ $env:BASE_URL = 'http://localhost:4000'; npm run demo
 | CS Department Announcements | department | faculty_only | admin.it | dr.ahmed, dr.sana, Muaaz, Ayesha, Hamza |
 | Exam Cell Notices | office | admin_only | exam.cell | admin.it, all faculty, all students |
 | ACM Student Chapter | society | everyone | Muaaz | Ayesha, Hamza (**muted**), Fatima |
-| Venturify FYP Team | fyp | everyone | Muaaz | Ayesha, dr.sana |
+| Venturify FYP Team | fyp | everyone | Muaaz | Abbas Raza, Amna Bibi, Ayesha, dr.sana |
 
 A few starting messages are also loaded so history is not empty.
 
@@ -610,7 +612,7 @@ async function main() {
   const res = await fetch('http://localhost:3000/api/auth/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ loginId: 'FA22-BCS-045', password: 'Comsats@123' }),
+    body: JSON.stringify({ loginId: 'FA23-BCS-050', password: 'Comsats@123' }),
   });
   const { token } = await res.json();
 
@@ -643,7 +645,7 @@ You can test with the demo, with PowerShell, or with Postman.
 Log in and keep the token in a header:
 
 ```powershell
-$login = Invoke-RestMethod -Method Post -Uri http://localhost:3000/api/auth/login -ContentType 'application/json' -Body '{"loginId":"FA22-BCS-045","password":"Comsats@123"}'
+$login = Invoke-RestMethod -Method Post -Uri http://localhost:3000/api/auth/login -ContentType 'application/json' -Body '{"loginId":"FA23-BCS-050","password":"Comsats@123"}'
 $h = @{ Authorization = "Bearer $($login.token)" }
 ```
 

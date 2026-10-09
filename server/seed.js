@@ -40,7 +40,9 @@ async function main() {
   const drSana = await make('dr.sana', 'Dr. Sana Malik', 'faculty', 'Computer Science');
   const drBilal = await make('dr.bilal', 'Dr. Bilal Hussain', 'faculty', 'Management Sciences');
 
-  const muaaz = await make('FA22-BCS-045', 'Muaaz Tasawar', 'student', 'Computer Science');
+  const muaaz = await make('FA23-BCS-050', 'Muaaz Tasawar', 'student', 'Computer Science');
+  const abbas = await make('FA23-BCS-001', 'Abbas Raza', 'student', 'Computer Science');
+  const amna = await make('FA23-BCS-016', 'Amna Bibi', 'student', 'Computer Science');
   const ayesha = await make('FA22-BCS-012', 'Ayesha Khan', 'student', 'Computer Science');
   const hamza = await make('FA22-BCS-078', 'Hamza Ali', 'student', 'Computer Science');
   const fatima = await make('FA22-BEE-031', 'Fatima Noor', 'student', 'Electrical and Computer Engineering');
@@ -79,7 +81,7 @@ async function main() {
     description: 'Datesheets and exam notices. Only the Exam Cell can post.',
     memberIds: [
       itAdmin.id, drAhmed.id, drSana.id, drBilal.id,
-      muaaz.id, ayesha.id, hamza.id, fatima.id, usman.id,
+      muaaz.id, abbas.id, amna.id, ayesha.id, hamza.id, fatima.id, usman.id,
     ],
   });
 
@@ -97,7 +99,7 @@ async function main() {
     type: 'fyp',
     postPolicy: 'everyone',
     description: 'Final year project team. Supervisor: Dr. Sana Malik.',
-    memberIds: [ayesha.id, drSana.id],
+    memberIds: [abbas.id, amna.id, ayesha.id, drSana.id],
   });
 
   // Hamza can read the ACM group but not post, which demonstrates muting
@@ -110,6 +112,8 @@ async function main() {
   groups.postMessage(drAhmed, pdc.id, 'Lab Assignment 1 (Socket.IO) has been posted. Please read the brief carefully.');
   groups.postMessage(ayesha, pdc.id, 'Sir, is the demo required in the lab or can we show it online?');
   groups.postMessage(muaaz, venturify.id, 'Sprint planning meeting tomorrow after the 2 PM class.');
+  groups.postMessage(abbas, venturify.id, 'I will prepare the database design for the next meeting.');
+  groups.postMessage(amna, venturify.id, 'I will work on the user interface mockups.');
   groups.postMessage(drSana, bcs7a.id, 'Please submit your FYP proposals by next week.');
 
   db.flush();
