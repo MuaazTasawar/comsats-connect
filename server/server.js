@@ -1,6 +1,7 @@
-'use strict';
+﻿'use strict';
 
 const http = require('http');
+const path = require('path');
 const express = require('express');
 const cors = require('cors');
 
@@ -34,6 +35,7 @@ const corsOrigin =
 
 app.use(cors({ origin: corsOrigin }));
 app.use(express.json({ limit: '100kb' }));
+app.use(express.static(path.join(__dirname, '..', 'public')));
 
 /* ------------------------------------------------------------------ */
 /* Socket.IO (routes reach it through app.get('io'))                   */

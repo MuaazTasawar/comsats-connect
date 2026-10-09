@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign in - COMSATS Connect</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="login-page">
+
+  <section class="login-intro">
+    <div>
+      <h1>COMSATS Connect</h1>
+      <p class="lede">Messaging for classes, courses, departments and offices at COMSATS University Islamabad.</p>
+    </div>
+
+    <ul class="boundary-list">
+      <li>
+        <strong>Groups are members-only</strong>
+        You only see, read and receive messages from the groups you have been added to.
+      </li>
+      <li>
+        <strong>Notice groups are read-only</strong>
+        Department announcements and Exam Cell notices are posted by faculty and admins. Students can read them.
+      </li>
+      <li>
+        <strong>Direct messages have limits</strong>
+        Students message people they share a group with, or people who messaged them first.
+      </li>
+    </ul>
+  </section>
+
+  <main class="login-panel">
+    <h2>Sign in</h2>
+    <p class="sub">Students use their registration number. Faculty and staff use their username.</p>
+
+    <div id="form-error" class="form-error" role="alert" hidden></div>
+
+    <form id="login-form" novalidate>
+      <div class="field">
+        <label for="loginId">Login ID</label>
+        <input class="input" id="loginId" name="loginId" type="text" autocomplete="username"
+               autocapitalize="off" spellcheck="false" placeholder="FA23-BCS-050 or dr.ahmed">
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input class="input" id="password" name="password" type="password" autocomplete="current-password">
+      </div>
+      <button class="btn" id="login-button" type="submit">Sign in</button>
+    </form>
+
+    <section class="demo">
+      <h3>Demo accounts</h3>
+      <p>Pick one to fill in the form. Every demo account uses the password Comsats@123.</p>
+      <div class="demo-list" id="demo-list"></div>
+    </section>
+  </main>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/login.js"></script>
+</body>
+</html>
