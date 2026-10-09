@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 const db = require('../store/db');
 const { AppError } = db;
@@ -58,9 +58,11 @@ function isMember(groupId, userId) {
 }
 
 function sharesGroup(userIdA, userIdB) {
+  // Only open groups count. Sharing a read-only notice group (like Exam Cell Notices) does not make two students contacts.
+  const openGroupIds = new Set(db.collection('groups').filter((g) => g.postPolicy === POST_POLICIES.EVERYONE).map((g) => g.id));
   const memberships = db.collection('memberships');
   const groupsOfA = new Set(
-    memberships.filter((m) => m.userId === userIdA).map((m) => m.groupId)
+    memberships.filter((m) => m.userId === userIdA && openGroupIds.has(m.groupId)).map((m) => m.groupId)
   );
   return memberships.some(
     (m) => m.userId === userIdB && groupsOfA.has(m.groupId)
